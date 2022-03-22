@@ -10,8 +10,7 @@ namespace Contracts
 {
     public interface IPostRepository
     {
-        Task<PagedList<Post>> GetPostsAsync(string userId,
-        PostParameters postParameters, bool trackChanges);
+        Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
         Task<Post> GetPostAsync(string userId, Guid postId, bool trackChanges);
         void CreatePostForUserAsync(string userId, Post post);
         void DeletePostAsync(Post post);

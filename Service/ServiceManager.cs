@@ -24,12 +24,12 @@ namespace Service
 
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, 
             IMapper mapper, IEmployeeLinks employeeLinks, UserManager<User> userManager,
-            IOptionsMonitor<JwtConfiguration> configuration, IPostLinks postLinks)
+            IOptionsMonitor<JwtConfiguration> configuration)// , IPostLinks postLinks
         {
             _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, employeeLinks));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
-            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, logger, mapper, postLinks, userManager));
+            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, logger, mapper, userManager));
         }
         public ICompanyService CompanyService => _companyService.Value;
 

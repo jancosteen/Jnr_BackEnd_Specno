@@ -15,10 +15,10 @@ namespace Shared.DataTransferObjects
 
         [Required(ErrorMessage = "Body is required")]
         public string? Body { get; init; }
-        public int UpvoteCount { get; init; } = 0;
-        public int DownvoteCount { get; init; } = 0;
+        public int UpvoteCount { get; init; }
+        public int DownvoteCount { get; init; }
 
-        public DateTime CreationDate { get; init; }
-        public DateTime? UpdateDate { get; init; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

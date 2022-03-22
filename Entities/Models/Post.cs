@@ -19,8 +19,8 @@ namespace Entities.Models
 
         [Required(ErrorMessage ="Body is required")]
         public string? Body { get; set; }
-        public int UpvoteCount { get; set; } = 0;
-        public int DownvoteCount { get; set; } = 0;
+        public int UpvoteCount { get; set; }
+        public int DownvoteCount { get; set; }
         
         public DateTime CreationDate { get; set; }
         public DateTime? UpdateDate { get; set; }

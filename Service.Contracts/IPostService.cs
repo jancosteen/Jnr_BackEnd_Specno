@@ -12,8 +12,7 @@ namespace Service.Contracts
 {
     public interface IPostService
     {
-        /*Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync(Guid userId,
-            PostLinkParameters linkParams, bool trackChanges);*/
+        Task<IEnumerable<PostDto>> GetAllPostsAsync(bool trackChanges);
         Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges);
         Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges);
         Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges);

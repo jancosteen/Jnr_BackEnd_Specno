@@ -20,16 +20,16 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        private readonly IPostLinks _postLinks;
+        //private readonly IPostLinks _postLinks;
         private readonly UserManager<User> _userManager;
 
         public PostService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper,
-            IPostLinks postLinks, UserManager<User> userManager)
+             UserManager<User> userManager)// IPostLinks postLinks,
         {
             _repository = repository;
             _logger = logger; ;
             _mapper = mapper;
-            _postLinks = postLinks;
+            //_postLinks = postLinks;
             _userManager = userManager;
         }
         public async Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges)
@@ -37,6 +37,9 @@ namespace Service
             await CheckIfUserExists(userId, trackChanges);
 
             var postEntity = _mapper.Map<Post>(postForCreation);
+
+            var creationDate = DateTime.UtcNow;
+            postEntity.CreationDate = creationDate;
 
             _repository.Post.CreatePostForUserAsync(userId, postEntity);
             await _repository.SaveAsync();
@@ -82,23 +85,14 @@ namespace Service
             return (postToPach, postFromDb);
         }
 
-        /*public async Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync
-            (Guid userId, PostLinkParameters linkParameters, bool trackChanges)
+        public async Task<IEnumerable<PostDto>> GetAllPostsAsync(bool trackChanges)
         {
-            if (!linkParameters.PostParameters.ValidAgeRange)
-                throw new MaxAgeRangeBadRequestException();
+            var postEntities = await _repository.Post.GetAllPostsAsync(trackChanges);
 
-            await CheckIfUserExists(userId, trackChanges);
+            var postDto = _mapper.Map<IEnumerable<PostDto>>(postEntities);
 
-            var postsWithMetaData = await _repository.Post
-                .GetPostsAsync(userId, linkParameters.PostParameters, trackChanges);
-
-            var postsDto = _mapper.Map<IEnumerable<PostDto>>(postsWithMetaData);
-
-            var links = _postLinks.TryGenerateLinks(postsDto, linkParameters.PostParameters.Fields, userId, linkParameters.Context);
-
-            return (linkResponse: links, metaData: postsWithMetaData.MetaData);
-        }*/
+            return postDto;
+        }
 
         public async Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity)
         {
@@ -112,13 +106,17 @@ namespace Service
 
             var postFromDb = await GetpostForUserAndCheckIfItExists(userId, id, empTrackChanges);
 
+            postForUpdate.CreationDate = postFromDb.CreationDate;            
+
             _mapper.Map(postForUpdate, postFromDb);
+            postFromDb.UpdateDate = DateTime.UtcNow;
+
             await _repository.SaveAsync();
         }
 
         private async Task CheckIfUserExists(string userId, bool trackChanges)
         {
-            var user = await _userManager.FindByNameAsync(userId.ToString());
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user is null)
                 throw new UserNotFoundException(userId);
         }

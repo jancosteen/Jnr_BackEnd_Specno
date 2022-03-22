@@ -31,20 +31,10 @@ namespace Repository
             await FindByCondition(e => e.UserId.Equals(userId) && e.Id.Equals(postId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Post>> GetPostsAsync(string userId,
-         PostParameters postParameters, bool trackChanges)
-        {
-            var posts = await FindByCondition(e => e.UserId.Equals(userId), trackChanges)
-                .FilterPosts(postParameters.MinDate, postParameters.MaxDate)
-                .Search(postParameters.SearchTerm)
-                .Skip((postParameters.PageNumber - 1) * postParameters.PageSize)
-                .Take(postParameters.PageSize)
-                .ToListAsync();
-
-            var count = await FindByCondition(e => e.UserId.Equals(userId), trackChanges).CountAsync();
-
-            return new PagedList<Post>
-                (posts, count, postParameters.PageNumber, postParameters.PageSize);
-        }
+        public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .OrderBy(c => c.Title)
+            .ToListAsync();
     }
 }
+

@@ -48,7 +48,7 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
-//builder.Services.AddScoped<IPostLinks, PostLinks>();
+/*builder.Services.AddScoped<IPostLinks, PostLinks>();*/
 
 // Different content types i.e JSON or XML etc
 builder.Services.AddControllers(config =>
