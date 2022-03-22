@@ -18,20 +18,21 @@ namespace Repository
 
         }
 
-        public void CreateCommentForUserAsync(Guid userId, Comment comment)
+        public void CreateCommentAsync(Guid userId,  Guid postId, Comment comment)
         {
             comment.UserId = userId;
+            comment.PostId = postId;
             Create(comment);
         }
 
         public void DeleteCommentAsync(Comment comment) =>
             Delete(comment);
 
-        public async Task<Comment> GetCommentAsync(Guid userId, Guid commentId, bool trackChanges) =>
-            await FindByCondition(e => e.UserId.Equals(userId) && e.Id.Equals(commentId), trackChanges)
+        public async Task<Comment> GetCommentAsync(Guid userId, Guid postId, Guid commentId, bool trackChanges) =>
+            await FindByCondition(e => e.UserId.Equals(userId) && e.PostId.Equals(postId) && e.Id.Equals(commentId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Comment>> GetCommentsAsync(Guid userId,
+        public async Task<PagedList<Comment>> GetCommentsByUserAsync(Guid userId,
          CommentParameters commentParameters, bool trackChanges)
         {
             var comments = await FindByCondition(e => e.UserId.Equals(userId), trackChanges)
@@ -42,6 +43,22 @@ namespace Repository
                 .ToListAsync();
 
             var count = await FindByCondition(e => e.UserId.Equals(userId), trackChanges).CountAsync();
+
+            return new PagedList<Comment>
+                (comments, count, commentParameters.PageNumber, commentParameters.PageSize);
+        }
+
+        public async Task<PagedList<Comment>> GetCommentsOnPostAsync(Guid postId,
+         CommentParameters commentParameters, bool trackChanges)
+        {
+            var comments = await FindByCondition(e => e.PostId.Equals(postId), trackChanges)
+                .FilterComments(commentParameters.MinDate, commentParameters.MaxDate)
+                .Search(commentParameters.SearchTerm)
+                .Skip((commentParameters.PageNumber - 1) * commentParameters.PageSize)
+                .Take(commentParameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindByCondition(e => e.UserId.Equals(postId), trackChanges).CountAsync();
 
             return new PagedList<Comment>
                 (comments, count, commentParameters.PageNumber, commentParameters.PageSize);

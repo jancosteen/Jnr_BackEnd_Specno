@@ -10,10 +10,12 @@ namespace Contracts
 {
     public interface ICommentRepository
     {
-        Task<PagedList<Comment>> GetCommentsAsync(Guid userId,
+        Task<PagedList<Comment>> GetCommentsByUserAsync(Guid userId,
         CommentParameters commentParameters, bool trackChanges);
-        Task<Comment> GetCommentAsync(Guid userId, Guid commentId, bool trackChanges);
-        void CreateCommentForUserAsync(Guid userId, Comment comment);
+        Task<PagedList<Comment>> GetCommentsOnPostAsync(Guid postId,
+        CommentParameters commentParameters, bool trackChanges);
+        Task<Comment> GetCommentAsync(Guid userId, Guid postId, Guid commentId, bool trackChanges);
+        void CreateCommentAsync(Guid userId, Guid postId, Comment comment);
         void DeleteCommentAsync(Comment comment);
     }
 }
