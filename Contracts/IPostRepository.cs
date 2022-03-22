@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Contracts
 {
     public interface IPostRepository
     {
-        Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
-        Task<Post> GetPostAsync(Guid postId, bool trackChanges);
-        void CreatePostAsync(Post post);
-        Task<IEnumerable<Post>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+        Task<PagedList<Post>> GetPostsAsync(Guid userId,
+        PostParameters postParameters, bool trackChanges);
+        Task<Post> GetPostAsync(Guid userId, Guid postId, bool trackChanges);
+        void CreatePostForUserAsync(Guid userId, Post post);
         void DeletePostAsync(Post post);
     }
 }

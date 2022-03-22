@@ -12,16 +12,16 @@ namespace Entities.Models
         [Column("UserCommentVoteId")]
         public Guid Id { get; set; }
 
-        public DateTime CreationDateTime { get; set; }
-        public DateTime? UpdateDateTime { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public string? VoteType { get; set; }
 
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
         public User? User { get; set; }
 
-        [ForeignKey(nameof(Post))]
-        public Guid PostId { get; set; }
-        public User? Post { get; set; }
+        [ForeignKey(nameof(Comment))]
+        public Guid CommentId { get; set; }
+        public Comment? Comment { get; set; }
     }
 }

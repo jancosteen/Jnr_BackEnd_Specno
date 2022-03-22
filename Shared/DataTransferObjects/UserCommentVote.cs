@@ -10,8 +10,8 @@ namespace Shared.DataTransferObjects
     {
         public Guid Id { get; set; }
 
-        public DateTime CreationDateTime { get; set; }
-        public DateTime? UpdateDateTime { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public string? VoteType { get; set; }
     }
 }

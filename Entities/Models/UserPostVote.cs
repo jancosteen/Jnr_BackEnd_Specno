@@ -12,8 +12,8 @@ namespace Entities.Models
         [Column("UserPostVoteId")]
         public Guid Id { get; set; }
 
-        public DateTime CreationDateTime { get; set; }
-        public DateTime? UpdateDateTime { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
         public string? VoteType { get; set; }
 
         [ForeignKey(nameof(User))]
@@ -22,7 +22,7 @@ namespace Entities.Models
 
         [ForeignKey(nameof(Post))]
         public Guid PostId { get; set; }
-        public User? Post { get; set; }
+        public Post? Post { get; set; }
 
     }
 }

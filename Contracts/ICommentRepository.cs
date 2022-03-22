@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Contracts
 {
     public interface ICommentRepository
     {
-        Task<IEnumerable<Comment>> GetAllCommentsAsync(bool trackChanges);
-        Task<Comment> GetCommentAsync(Guid commentId, bool trackChanges);
-        void CreateCommentAsync(Comment Comment);
-        Task<IEnumerable<Comment>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
-        void DeleteCommentAsync(Comment Comment);
+        Task<PagedList<Comment>> GetCommentsAsync(Guid userId,
+        CommentParameters commentParameters, bool trackChanges);
+        Task<Comment> GetCommentAsync(Guid userId, Guid commentId, bool trackChanges);
+        void CreateCommentForUserAsync(Guid userId, Comment comment);
+        void DeleteCommentAsync(Comment comment);
     }
 }
