@@ -17,7 +17,7 @@ namespace Repository
         {
 
         }
-        public void CreateUserPostVoteForUserAsync(Guid userId, Guid postId, UserPostVote userPostVote)
+        public void CreateUserPostVoteForUserAsync(string userId, Guid postId, UserPostVote userPostVote)
         {
             userPostVote.UserId = userId;
             userPostVote.PostId = postId;
@@ -27,11 +27,11 @@ namespace Repository
         public void DeleteUserPostVoteAsync(UserPostVote userPostVote) =>
             Delete(userPostVote);
 
-        public async Task<UserPostVote> GetUserPostVoteAsync(Guid userId, Guid postId, Guid userPostVoteId, bool trackChanges) =>
+        public async Task<UserPostVote> GetUserPostVoteAsync(string userId, Guid postId, Guid userPostVoteId, bool trackChanges) =>
             await FindByCondition(e => e.UserId.Equals(userId) && e.PostId.Equals(postId) && e.Id.Equals(userPostVoteId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<UserPostVote>> GetUserPostVotesAsync(Guid userId, Guid postId,
+        public async Task<PagedList<UserPostVote>> GetUserPostVotesAsync(string userId, Guid postId,
          UserPostVoteParameters userPostVoteParameters, bool trackChanges)
         {
             var userPostVotes = await FindByCondition(e => e.UserId.Equals(userId) && e.PostId.Equals(postId), trackChanges)

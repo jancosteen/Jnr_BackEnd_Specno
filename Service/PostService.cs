@@ -32,7 +32,7 @@ namespace Service
             _postLinks = postLinks;
             _userManager = userManager;
         }
-        public async Task<PostDto> CreatePostForUserAsync(Guid userId, PostForCreationDto postForCreation, bool trackChanges)
+        public async Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges)
         {
             await CheckIfUserExists(userId, trackChanges);
 
@@ -46,7 +46,7 @@ namespace Service
             return postToReturn;
         }
 
-        public async Task DeletePostForUserAsync(Guid userId, Guid id, bool trackChanges)
+        public async Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges)
         {
             await CheckIfUserExists(userId, trackChanges);
 
@@ -56,7 +56,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<PostDto> GetPostAsync(Guid userId, Guid postId, bool trackChanges)
+        public async Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user is null)
@@ -71,7 +71,7 @@ namespace Service
             return postDto;
         }
 
-        public async Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(Guid userId, Guid id, bool compTrackChanges, bool empTrackChanges)
+        public async Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges)
         {
             await CheckIfUserExists(userId, compTrackChanges);
 
@@ -82,7 +82,7 @@ namespace Service
             return (postToPach, postFromDb);
         }
 
-        public async Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync
+        /*public async Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync
             (Guid userId, PostLinkParameters linkParameters, bool trackChanges)
         {
             if (!linkParameters.PostParameters.ValidAgeRange)
@@ -98,7 +98,7 @@ namespace Service
             var links = _postLinks.TryGenerateLinks(postsDto, linkParameters.PostParameters.Fields, userId, linkParameters.Context);
 
             return (linkResponse: links, metaData: postsWithMetaData.MetaData);
-        }
+        }*/
 
         public async Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity)
         {
@@ -106,7 +106,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdatePostForUserAsync(Guid userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges)
+        public async Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges)
         {
             await CheckIfUserExists(userId, compTrackChanges);
 
@@ -116,14 +116,14 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        private async Task CheckIfUserExists(Guid userId, bool trackChanges)
+        private async Task CheckIfUserExists(string userId, bool trackChanges)
         {
             var user = await _userManager.FindByNameAsync(userId.ToString());
             if (user is null)
                 throw new UserNotFoundException(userId);
         }
 
-        private async Task<Post> GetpostForUserAndCheckIfItExists(Guid userId, Guid postId, bool trackChanges)
+        private async Task<Post> GetpostForUserAndCheckIfItExists(string userId, Guid postId, bool trackChanges)
         {
             var postForUser = await _repository.Post.GetPostAsync(userId, postId, trackChanges);
             if (postForUser is null)

@@ -26,7 +26,7 @@ namespace Entities.Models
         public DateTime? UpdateDate { get; set; }
 
         [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public User? User { get; set; }
 
         public ICollection<Comment>? Comments { get; set; }

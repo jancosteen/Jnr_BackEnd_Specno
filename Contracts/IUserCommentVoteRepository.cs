@@ -10,10 +10,10 @@ namespace Contracts
 {
     public interface IUserCommentVoteRepository
     {
-        Task<PagedList<UserCommentVote>> GetUserCommentVotesAsync(Guid userId, Guid commentId,
+        Task<PagedList<UserCommentVote>> GetUserCommentVotesAsync(string userId, Guid commentId,
         UserCommentVoteParameters userCommentVoteParameters, bool trackChanges);
-        Task<UserCommentVote> GetUserCommentVoteAsync(Guid userId, Guid commentId, Guid userCommentVoteId, bool trackChanges);
-        void CreateUserCommentVoteForUserAsync(Guid userId, Guid commentId, UserCommentVote userCommentVote);
+        Task<UserCommentVote> GetUserCommentVoteAsync(string userId, Guid commentId, Guid userCommentVoteId, bool trackChanges);
+        void CreateUserCommentVoteForUserAsync(string userId, Guid commentId, UserCommentVote userCommentVote);
         void DeleteUserCommentVoteAsync(UserCommentVote userCommentVote);
     }
 }

@@ -12,13 +12,13 @@ namespace Service.Contracts
 {
     public interface IPostService
     {
-        Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync(Guid userId,
-            PostLinkParameters linkParams, bool trackChanges);
-        Task<PostDto> GetPostAsync(Guid userId, Guid postId, bool trackChanges);
-        Task<PostDto> CreatePostForUserAsync(Guid userId, PostForCreationDto postForCreation, bool trackChanges);
-        Task DeletePostForUserAsync(Guid userId, Guid id, bool trackChanges);
-        Task UpdatePostForUserAsync(Guid userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);
-        Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(Guid userId, Guid id, bool compTrackChanges, bool empTrackChanges);
+        /*Task<(LinkResponse linkResponse, MetaData metaData)> GetPostsAsync(Guid userId,
+            PostLinkParameters linkParams, bool trackChanges);*/
+        Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges);
+        Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges);
+        Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges);
+        Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);
+        Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges);
         Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity);
     }
 }

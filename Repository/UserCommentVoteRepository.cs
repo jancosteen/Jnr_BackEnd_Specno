@@ -18,7 +18,7 @@ namespace Repository
 
         }
 
-        public void CreateUserCommentVoteForUserAsync(Guid userId, Guid commentId, UserCommentVote userCommentVote)
+        public void CreateUserCommentVoteForUserAsync(string userId, Guid commentId, UserCommentVote userCommentVote)
         {
             userCommentVote.UserId = userId;
             userCommentVote.CommentId = commentId;
@@ -28,11 +28,11 @@ namespace Repository
         public void DeleteUserCommentVoteAsync(UserCommentVote userCommentVote) =>
             Delete(userCommentVote);
 
-        public async Task<UserCommentVote> GetUserCommentVoteAsync(Guid userId, Guid commentId, Guid userCommentVoteId, bool trackChanges) =>
+        public async Task<UserCommentVote> GetUserCommentVoteAsync(string userId, Guid commentId, Guid userCommentVoteId, bool trackChanges) =>
             await FindByCondition(e => e.UserId.Equals(userId) && e.CommentId.Equals(commentId) && e.Id.Equals(userCommentVoteId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<UserCommentVote>> GetUserCommentVotesAsync(Guid userId, Guid commentId,
+        public async Task<PagedList<UserCommentVote>> GetUserCommentVotesAsync(string userId, Guid commentId,
          UserCommentVoteParameters userCommentVoteParameters, bool trackChanges)
         {
             var userCommentVotes = await FindByCondition(e => e.UserId.Equals(userId) && e.CommentId.Equals(commentId), trackChanges)

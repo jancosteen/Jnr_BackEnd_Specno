@@ -11,6 +11,6 @@ namespace Contracts
 {
     public interface IPostLinks
     {
-        LinkResponse TryGenerateLinks(IEnumerable<PostDto> employeesDto, string fields, Guid userId, HttpContext httpContext);
+        //LinkResponse TryGenerateLinks(IEnumerable<PostDto> postDto, string fields, Guid userId, HttpContext httpContext);
     }
 }

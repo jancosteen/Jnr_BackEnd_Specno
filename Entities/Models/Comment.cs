@@ -21,11 +21,11 @@ namespace Entities.Models
         public DateTime? UpdateDate { get; set; }
 
         [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public User? User { get; set; }
 
         [ForeignKey(nameof(Post))]
         public Guid PostId { get; set; }
-        public User? Post { get; set; }
+        public Post? Post { get; set; }
     }
 }

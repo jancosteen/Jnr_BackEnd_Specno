@@ -18,7 +18,7 @@ namespace Repository
 
         }
 
-        public void CreateCommentAsync(Guid userId,  Guid postId, Comment comment)
+        public void CreateCommentAsync(string userId,  Guid postId, Comment comment)
         {
             comment.UserId = userId;
             comment.PostId = postId;
@@ -28,11 +28,11 @@ namespace Repository
         public void DeleteCommentAsync(Comment comment) =>
             Delete(comment);
 
-        public async Task<Comment> GetCommentAsync(Guid userId, Guid postId, Guid commentId, bool trackChanges) =>
+        public async Task<Comment> GetCommentAsync(string userId, Guid postId, Guid commentId, bool trackChanges) =>
             await FindByCondition(e => e.UserId.Equals(userId) && e.PostId.Equals(postId) && e.Id.Equals(commentId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Comment>> GetCommentsByUserAsync(Guid userId,
+        public async Task<PagedList<Comment>> GetCommentsByUserAsync(string userId,
          CommentParameters commentParameters, bool trackChanges)
         {
             var comments = await FindByCondition(e => e.UserId.Equals(userId), trackChanges)

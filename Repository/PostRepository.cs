@@ -18,7 +18,7 @@ namespace Repository
 
         }
 
-        public void CreatePostForUserAsync(Guid userId, Post post)
+        public void CreatePostForUserAsync(string userId, Post post)
         {
             post.UserId = userId;
             Create(post);
@@ -27,11 +27,11 @@ namespace Repository
         public void DeletePostAsync(Post post) =>
             Delete(post);
 
-        public async Task<Post> GetPostAsync(Guid userId, Guid postId, bool trackChanges) =>
+        public async Task<Post> GetPostAsync(string userId, Guid postId, bool trackChanges) =>
             await FindByCondition(e => e.UserId.Equals(userId) && e.Id.Equals(postId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Post>> GetPostsAsync(Guid userId,
+        public async Task<PagedList<Post>> GetPostsAsync(string userId,
          PostParameters postParameters, bool trackChanges)
         {
             var posts = await FindByCondition(e => e.UserId.Equals(userId), trackChanges)
