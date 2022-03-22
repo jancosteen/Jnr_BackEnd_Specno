@@ -30,5 +30,6 @@ namespace Entities.Models
         public User? User { get; set; }
 
         public ICollection<Comment>? Comments { get; set; }
+        public ICollection<UserPostVote>? User_Post_Vote { get; set; }
     }
 }

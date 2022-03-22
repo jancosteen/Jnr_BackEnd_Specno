@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class User_Post_Vote
+    public class UserPostVote
     {
         [Column("UserPostVoteId")]
         public Guid Id { get; set; }

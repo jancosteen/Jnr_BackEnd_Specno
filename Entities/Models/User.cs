@@ -16,7 +16,7 @@ namespace Entities.Models
 
         public ICollection<Post>? Posts { get; set; }
         public ICollection<Comment>? Comments { get; set; }
-        public ICollection<User_Post_Vote>? User_Post_Vote { get; set; }
+        public ICollection<UserPostVote>? User_Post_Vote { get; set; }
 
     }
 }

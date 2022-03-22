@@ -28,5 +28,11 @@ namespace Repository
 
         public DbSet<Company> Companies { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserCommentVote> UserCommentVotes { get; set; }
+        public DbSet<UserPostVote> UserPostVotes { get; set; }
+
     }
 }
