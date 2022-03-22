@@ -74,7 +74,7 @@ namespace Reddit_Api.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{userId}/{id}")]
+        /*[HttpPatch("{userId}/{id}")]
         public async Task<IActionResult> PartiallyUpdatePostForUser(string userId, Guid id, [FromBody] JsonPatchDocument<PostForUpdateDto> patchDoc)
         {
             if (patchDoc is null)
@@ -92,6 +92,6 @@ namespace Reddit_Api.Presentation.Controllers
             await _service.PostService.SaveChangesForPatchAsync(result.postToPatch, result.postEntity);
 
             return NoContent();
-        }
+        }*/
     }
 }

@@ -17,7 +17,7 @@ namespace Service.Contracts
         Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges);
         Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges);
         Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);
-        Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges);
+        //Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges);
         Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity);
     }
 }

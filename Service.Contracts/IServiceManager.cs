@@ -11,6 +11,7 @@ namespace Service.Contracts
         ICompanyService CompanyService { get; }
         IEmployeeService EmployeeService { get; }
         IPostService PostService { get; }
+        ICommentService CommentService { get; }
         IAuthenticationService AuthenticationService { get; }
     }
 }

@@ -63,5 +63,10 @@ namespace Repository
             return new PagedList<Comment>
                 (comments, count, commentParameters.PageNumber, commentParameters.PageSize);
         }
+
+        public async Task<IEnumerable<Comment>> GetAllCommentsAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .OrderBy(c => c.PostId)
+            .ToListAsync();
     }
 }

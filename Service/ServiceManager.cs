@@ -21,6 +21,7 @@ namespace Service
         private readonly Lazy<IEmployeeService> _employeeService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IPostService> _postService;
+        private readonly Lazy<ICommentService> _commentService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, 
             IMapper mapper, IEmployeeLinks employeeLinks, UserManager<User> userManager,
@@ -30,11 +31,15 @@ namespace Service
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, employeeLinks));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
             _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, logger, mapper, userManager));
+            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, logger, mapper, userManager));
         }
         public ICompanyService CompanyService => _companyService.Value;
 
         public IEmployeeService EmployeeService => _employeeService.Value;
         public IPostService PostService => _postService.Value;
+        public ICommentService CommentService => _commentService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
+
+        
     }
 }
