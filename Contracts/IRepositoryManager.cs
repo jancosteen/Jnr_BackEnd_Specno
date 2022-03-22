@@ -10,7 +10,10 @@ namespace Contracts
     {
         ICompanyRepository Company { get; }
         IEmployeeRepository Employee { get; }
-
+        IPostRepository Post { get; }
+        ICommentRepository Comment { get; }
+        IUserCommentVoteRepository UserCommentVote { get; }
+        IUserPostVoteRepository UserPostVote { get; }
         Task SaveAsync();
     }
 }

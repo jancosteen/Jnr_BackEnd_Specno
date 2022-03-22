@@ -19,7 +19,19 @@ namespace Reddit_Api
             CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
 
             CreateMap<UserForRegistrationDto, User>();
-            
+
+            CreateMap<Post, PostDto>();
+            CreateMap<PostForCreationDto, Post>();
+            CreateMap<PostForUpdateDto, Post>().ReverseMap();
+
+            CreateMap<Comment, CommentDto>();
+            CreateMap<CommentForCreationDto, Comment>();
+            //CreateMap<CommentForUpdateDto, Comment>().ReverseMap();
+
+            CreateMap<UserCommentVote, UserCommentVoteDto>();
+            CreateMap<UserPostVote, UserPostVoteDto>();
+
+
 
         }
     }

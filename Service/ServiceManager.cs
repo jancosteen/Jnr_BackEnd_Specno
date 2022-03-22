@@ -20,18 +20,21 @@ namespace Service
         private readonly Lazy<ICompanyService> _companyService;
         private readonly Lazy<IEmployeeService> _employeeService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
+        private readonly Lazy<IPostService> _postService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, 
             IMapper mapper, IEmployeeLinks employeeLinks, UserManager<User> userManager,
-            IOptionsMonitor<JwtConfiguration> configuration)
+            IOptionsMonitor<JwtConfiguration> configuration, IPostLinks postLinks)
         {
             _companyService = new Lazy<ICompanyService>(() => new CompanyService(repositoryManager, logger, mapper));
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, logger, mapper, employeeLinks));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
+            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, logger, mapper, postLinks, userManager));
         }
         public ICompanyService CompanyService => _companyService.Value;
 
         public IEmployeeService EmployeeService => _employeeService.Value;
+        public IPostService PostService => _postService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
     }
 }

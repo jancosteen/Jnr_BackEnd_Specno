@@ -30,6 +30,10 @@ namespace Repository
         public IPostRepository Post => _postRepository.Value;
         public ICommentRepository Comment => _commentRepository.Value;
 
+        public IUserCommentVoteRepository UserCommentVote => throw new NotImplementedException();
+
+        public IUserPostVoteRepository UserPostVote => throw new NotImplementedException();
+
         public Task SaveAsync() => _repositoryContext.SaveChangesAsync();
     }
 }

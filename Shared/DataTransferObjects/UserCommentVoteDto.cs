@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record UserCommentVote
+    public record UserCommentVoteDto
     {
         public Guid Id { get; set; }
 
