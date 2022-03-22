@@ -1,5 +1,6 @@
 ﻿using Entities.LinkModels;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +19,15 @@ namespace Reddit_Api.Presentation.Controllers
 {
     [Route("api/posts")]// "api/users/{userId}/posts"
     [ApiController]
+    [Authorize]
     public class PostController: ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly UserManager<User> _userManager;
+      
 
-        public PostController(IServiceManager service, UserManager<User> userManager)
+        public PostController(IServiceManager service)
         {
             _service = service;
-            _userManager = userManager;
         }
 
         [HttpGet(Name ="GetAllPosts")]
@@ -70,6 +71,26 @@ namespace Reddit_Api.Presentation.Controllers
         {
 
             await _service.PostService.UpdatePostForUserAsync(userId, id, postForUpdate, compTrackChanges: false, empTrackChanges: true);
+
+            return NoContent();
+        }
+
+        [HttpPut("upvotePost/{userId}/{postId}")]
+        public async Task<IActionResult>UpvotePost(string userId, Guid postId, Guid id)
+        {
+            var postDto = await _service.PostService.GetPostAsync(userId, postId, trackChanges: false); 
+
+            await _service.PostService.UpvotePost(userId, postId, postDto, userTrackChanges: false, postTrackChanges: true);
+
+            return NoContent();
+        }
+
+        [HttpPut("downvotePost/{userId}/{postId}")]
+        public async Task<IActionResult> DownvotePost(string userId, Guid postId, Guid id)
+        {
+            var postDto = await _service.PostService.GetPostAsync(userId, postId, trackChanges: false);
+
+            await _service.PostService.DownvotePost(userId, postId, postDto, userTrackChanges: false, postTrackChanges: true);
 
             return NoContent();
         }

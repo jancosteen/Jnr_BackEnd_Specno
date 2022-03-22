@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Reddit_Api.Presentation.ActionFilters;
@@ -14,15 +15,16 @@ namespace Reddit_Api.Presentation.Controllers
 {
     [Route("api/comments")]
     [ApiController]
+    [Authorize]
     public class CommentController: ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly UserManager<User> _userManager;
+       
 
-        public CommentController(IServiceManager service, UserManager<User> userManager)
+        public CommentController(IServiceManager service)
         {
             _service = service;
-            _userManager = userManager;
+           
         }
 
         [HttpGet(Name = "GetAllComments")]

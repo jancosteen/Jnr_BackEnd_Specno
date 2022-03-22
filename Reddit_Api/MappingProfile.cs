@@ -20,9 +20,11 @@ namespace Reddit_Api
 
             CreateMap<UserForRegistrationDto, User>();
 
-            CreateMap<Post, PostDto>();
+            CreateMap<Post, PostDto>().ReverseMap();
             CreateMap<PostForCreationDto, Post>();
             CreateMap<PostForUpdateDto, Post>().ReverseMap();
+            
+
 
             CreateMap<Comment, CommentDto>();
             CreateMap<CommentForCreationDto, Comment>();

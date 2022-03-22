@@ -129,5 +129,56 @@ namespace Service
 
             return postForUser;
         }
+
+        public async Task UpvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges)
+        {
+            await CheckIfUserExists(userId, userTrackChanges);
+
+            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, postId, postTrackChanges);            
+
+            _mapper.Map(postForUpdate, postFromDb);
+            postFromDb.UpvoteCount++;
+
+            await _repository.SaveAsync();
+
+            var creationDate = DateTime.UtcNow;
+
+            var createUserPostVote = new UserPostVote();
+            createUserPostVote.CreationDate = creationDate;
+            createUserPostVote.UpdateDate = null;
+            createUserPostVote.VoteType = "up";
+
+
+
+            _repository.UserPostVote.CreateUserPostVoteForUserAsync(userId, postId, createUserPostVote);
+            await _repository.SaveAsync();
+        }
+
+        public async Task DownvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges)
+        {
+            await CheckIfUserExists(userId, userTrackChanges);
+
+            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, postId, postTrackChanges);
+
+            _mapper.Map(postForUpdate, postFromDb);
+
+            postFromDb.DownvoteCount++;
+
+            await _repository.SaveAsync();
+
+            var creationDate = DateTime.UtcNow;
+
+            var createUserPostVote = new UserPostVote();
+            createUserPostVote.CreationDate = creationDate;
+            createUserPostVote.UpdateDate = null;
+            createUserPostVote.VoteType = "down";
+
+            
+
+            _repository.UserPostVote.CreateUserPostVoteForUserAsync(userId,postId, createUserPostVote);
+            await _repository.SaveAsync();
+
+
+        }
     }
 }

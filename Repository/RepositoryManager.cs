@@ -15,6 +15,8 @@ namespace Repository
         private readonly Lazy<IEmployeeRepository> _employeeRepository;
         private readonly Lazy<IPostRepository> _postRepository;
         private readonly Lazy<ICommentRepository> _commentRepository;
+        private readonly Lazy<IUserPostVoteRepository> _userPostVoteRepository;
+        private readonly Lazy<IUserCommentVoteRepository> _userCommentVoteRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -23,6 +25,8 @@ namespace Repository
             _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
             _postRepository = new Lazy<IPostRepository>(() => new PostRepository(repositoryContext));
             _commentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(repositoryContext));
+            _userPostVoteRepository = new Lazy<IUserPostVoteRepository>(() => new UserPostVoteRepository(repositoryContext));
+            _userCommentVoteRepository = new Lazy<IUserCommentVoteRepository>(() => new UserCommentVoteRepository(repositoryContext));
         }
         public ICompanyRepository Company => _companyRepository.Value;
 
@@ -30,9 +34,9 @@ namespace Repository
         public IPostRepository Post => _postRepository.Value;
         public ICommentRepository Comment => _commentRepository.Value;
 
-        public IUserCommentVoteRepository UserCommentVote => throw new NotImplementedException();
+        public IUserCommentVoteRepository UserCommentVote => _userCommentVoteRepository.Value;
 
-        public IUserPostVoteRepository UserPostVote => throw new NotImplementedException();
+        public IUserPostVoteRepository UserPostVote => _userPostVoteRepository.Value;
 
         public Task SaveAsync() => _repositoryContext.SaveChangesAsync();
     }
