@@ -1,0 +1,12 @@
+version: '3.0'
+
+services:
+ my-registry:
+  image: registry:latest
+  volumes:
+   - registry:/var/lib/registry
+  ports:
+   - "50000:5000"
+  restart: unless-stopped
+volumes:
+ registry:
