@@ -16,5 +16,7 @@ namespace Shared.DataTransferObjects
 
         public DateTime CreationDate { get; set; }
         public DateTime? UpdateDate { get; set; }
+
+        public ICollection<CommentDto>? Comments { get; set; }
     }
 }

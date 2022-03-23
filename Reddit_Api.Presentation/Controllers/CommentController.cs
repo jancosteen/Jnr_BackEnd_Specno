@@ -15,7 +15,7 @@ namespace Reddit_Api.Presentation.Controllers
 {
     [Route("api/comments")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CommentController: ControllerBase
     {
         private readonly IServiceManager _service;
@@ -68,6 +68,26 @@ namespace Reddit_Api.Presentation.Controllers
         {
 
             await _service.CommentService.UpdateCommentAsync(userId, postId, id, commentForUpdate, compTrackChanges: false, empTrackChanges: true);
+
+            return NoContent();
+        }
+
+        [HttpPut("upvoteComment/{userId}/{postId}/commentId/{id}")]
+        public async Task<IActionResult> UpvoteComment(string userId, Guid postId, Guid id)
+        {
+            var commentDto = await _service.CommentService.GetCommentAsync(userId, postId, id, trackChanges: false);
+
+            await _service.CommentService.UpvoteComment(userId, postId, id, commentDto, userTrackChanges: false, postTrackChanges: false, commentTrackChanges: true);
+
+            return NoContent();
+        }
+
+        [HttpPut("downvoteComment/{userId}/{postId}/commentId/{id}")]
+        public async Task<IActionResult> DownvoteComment(string userId, Guid postId, Guid id)
+        {
+            var commentDto = await _service.CommentService.GetCommentAsync(userId, postId, id, trackChanges: false);
+
+            await _service.CommentService.DownvoteComment(userId, postId, id, commentDto, userTrackChanges: false, postTrackChanges: false, commentTrackChanges: true);
 
             return NoContent();
         }

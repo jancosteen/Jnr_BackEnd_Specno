@@ -14,6 +14,7 @@ namespace Service.Contracts
     {
         Task<IEnumerable<PostDto>> GetAllPostsAsync(bool trackChanges);
         Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges);
+        Task<IEnumerable<PostDto>> GetPostsByUsername(string userName, bool trackChanges);
         Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges);
         Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges);
         Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);

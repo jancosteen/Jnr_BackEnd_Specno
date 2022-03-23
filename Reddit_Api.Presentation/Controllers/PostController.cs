@@ -19,7 +19,7 @@ namespace Reddit_Api.Presentation.Controllers
 {
     [Route("api/posts")]// "api/users/{userId}/posts"
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PostController: ControllerBase
     {
         private readonly IServiceManager _service;
@@ -36,6 +36,17 @@ namespace Reddit_Api.Presentation.Controllers
         public async Task<IActionResult> GetAllPosts()
         {
             var posts = await _service.PostService.GetAllPostsAsync(trackChanges: false);
+            //var users = await _userManager.FindByIdAsync("db9ef0fe-eefa-4548-ad0d-0bb3205d7df8");
+
+            return Ok(posts);
+        }
+
+        [HttpGet("{userName}",Name = "GetAllPostsByUser")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> GetAllPostsByUser(string userName)
+        {
+            var posts = await _service.PostService.GetPostsByUsername(userName, trackChanges: false);
             //var users = await _userManager.FindByIdAsync("db9ef0fe-eefa-4548-ad0d-0bb3205d7df8");
 
             return Ok(posts);

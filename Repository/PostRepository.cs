@@ -33,6 +33,7 @@ namespace Repository
 
         public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges) =>
             await FindAll(trackChanges)
+            .Include(c => c.Comments)
             .OrderBy(c => c.Title)
             .ToListAsync();
     }

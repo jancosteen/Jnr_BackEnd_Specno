@@ -17,5 +17,8 @@ namespace Service.Contracts
         Task UpdateCommentAsync(string userId, Guid postId, Guid id, CommentForUpdateDto commentForUpdate, bool compTrackChanges, bool empTrackChanges);
         //Task<(CommentForUpdateDto commentToPatch, Comment commentEntity)> GetCommentForPatchAsync(string userId, Guid postId, Guid id, bool compTrackChanges, bool empTrackChanges);
         Task SaveChangesForPatchAsync(CommentForUpdateDto commentToPach, Comment commentEntity);
+
+        Task UpvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges,bool postTrackChanges, bool commentTrackChanges);
+        Task DownvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges);
     }
 }

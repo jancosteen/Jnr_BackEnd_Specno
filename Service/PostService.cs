@@ -180,5 +180,23 @@ namespace Service
 
 
         }
+
+        public async Task<IEnumerable<PostDto>> GetPostsByUsername(string userName, bool trackChanges)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user is null)
+                throw new UserNotFoundException(userName);
+
+            var postEntities = await _repository.Post.GetAllPostsAsync(trackChanges);
+                                                        
+
+            var filteredEnttites = postEntities.Where(p => p.UserId.Equals(user.Id));
+
+            var postDto = _mapper.Map<IEnumerable<PostDto>>(filteredEnttites);
+
+            return postDto;
+
+
+        }
     }
 }

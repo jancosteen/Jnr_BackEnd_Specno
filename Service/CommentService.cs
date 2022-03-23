@@ -127,5 +127,53 @@ namespace Service
 
             return commentForUser;
         }
+
+        public async Task UpvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
+        {
+            await CheckIfUserExists(userId, userTrackChanges);
+
+            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, postId, id, commentTrackChanges);
+
+            _mapper.Map(commentForUpdate, commentFromDb);
+            commentFromDb.UpvoteCount++;
+
+            await _repository.SaveAsync();
+
+            var creationDate = DateTime.UtcNow;
+
+            var createUserCommentVote = new UserCommentVote();
+            createUserCommentVote.CreationDate = creationDate;
+            createUserCommentVote.UpdateDate = null;
+            createUserCommentVote.VoteType = "up";
+
+
+
+            _repository.UserCommentVote.CreateUserCommentVoteForUserAsync(userId, id, createUserCommentVote);
+            await _repository.SaveAsync();
+        }
+
+        public async Task DownvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
+        {
+            await CheckIfUserExists(userId, userTrackChanges);
+
+            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, postId, id, commentTrackChanges);
+
+            _mapper.Map(commentForUpdate, commentFromDb);
+            commentFromDb.DownvoteCount++;
+
+            await _repository.SaveAsync();
+
+            var creationDate = DateTime.UtcNow;
+
+            var createUserCommentVote = new UserCommentVote();
+            createUserCommentVote.CreationDate = creationDate;
+            createUserCommentVote.UpdateDate = null;
+            createUserCommentVote.VoteType = "down";
+
+
+
+            _repository.UserCommentVote.CreateUserCommentVoteForUserAsync(userId, id, createUserCommentVote);
+            await _repository.SaveAsync();
+        }
     }
 }

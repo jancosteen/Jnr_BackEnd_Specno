@@ -26,7 +26,7 @@ namespace Reddit_Api
             
 
 
-            CreateMap<Comment, CommentDto>();
+            CreateMap<Comment, CommentDto>().ReverseMap();
             CreateMap<CommentForCreationDto, Comment>();
             CreateMap<CommentForUpdateDto, Comment>().ReverseMap();
 
