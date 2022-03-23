@@ -239,7 +239,7 @@ namespace Reddit_Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPostVotes");
+                    b.ToTable("UserPostVote");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -271,15 +271,15 @@ namespace Reddit_Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "43c72bf5-f657-420d-963d-b66eed15edb4",
-                            ConcurrencyStamp = "a9af38db-60ce-4840-bc85-0011943a0576",
+                            Id = "2647548d-8cde-4f39-8e69-ced9fd9f154c",
+                            ConcurrencyStamp = "742f75ba-7cb2-4bba-ba70-ca2856344b2a",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "9cadcd00-6472-4023-83f0-262024e8ec72",
-                            ConcurrencyStamp = "87e840f7-4552-4e83-a0c0-fc3d1e1affc8",
+                            Id = "4018adb4-94b3-49b0-bda3-6f0c03c192e6",
+                            ConcurrencyStamp = "572ff72d-7f39-40b1-9851-d1a330f2c488",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
