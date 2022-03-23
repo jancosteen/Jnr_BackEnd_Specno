@@ -13,13 +13,11 @@ namespace Service.Contracts
     public interface IPostService
     {
         Task<IEnumerable<PostDto>> GetAllPostsAsync(bool trackChanges);
-        Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges);
+        Task<PostDto> GetPostAsync(Guid postId, bool trackChanges);
         Task<IEnumerable<PostDto>> GetPostsByUsername(string userName, bool trackChanges);
         Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges);
-        Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges);
-        Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);
-        //Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges);
-        Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity);
+        Task DeletePostForUserAsync(Guid id, bool trackChanges);
+        Task UpdatePostForUserAsync(Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges);
         Task UpvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges);
         Task DownvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges);
 

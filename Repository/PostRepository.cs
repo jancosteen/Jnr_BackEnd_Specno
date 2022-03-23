@@ -27,8 +27,8 @@ namespace Repository
         public void DeletePostAsync(Post post) =>
             Delete(post);
 
-        public async Task<Post> GetPostAsync(string userId, Guid postId, bool trackChanges) =>
-            await FindByCondition(e => e.UserId.Equals(userId) && e.Id.Equals(postId), trackChanges)
+        public async Task<Post> GetPostAsync(Guid postId, bool trackChanges) =>
+            await FindByCondition(e =>e.Id.Equals(postId), trackChanges)
             .SingleOrDefaultAsync();
 
         public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges) =>

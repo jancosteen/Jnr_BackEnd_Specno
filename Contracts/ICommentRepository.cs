@@ -11,9 +11,7 @@ namespace Contracts
     public interface ICommentRepository
     {
         Task<IEnumerable<Comment>> GetAllCommentsAsync(bool trackChanges);
-        Task<PagedList<Comment>> GetCommentsOnPostAsync(Guid postId,
-        CommentParameters commentParameters, bool trackChanges);
-        Task<Comment> GetCommentAsync(string userId, Guid postId, Guid commentId, bool trackChanges);
+        Task<Comment> GetCommentAsync( Guid commentId, bool trackChanges);
         void CreateCommentAsync(string userId, Guid postId, Comment comment);
         void DeleteCommentAsync(Comment comment);
     }

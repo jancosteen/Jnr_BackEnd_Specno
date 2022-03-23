@@ -23,6 +23,7 @@ namespace Repository
 
 
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
         }
 
         public DbSet<Post> Posts { get; set; }

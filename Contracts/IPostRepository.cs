@@ -11,7 +11,7 @@ namespace Contracts
     public interface IPostRepository
     {
         Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
-        Task<Post> GetPostAsync(string userId, Guid postId, bool trackChanges);
+        Task<Post> GetPostAsync(Guid postId, bool trackChanges);
         void CreatePostForUserAsync(string userId, Post post);
         void DeletePostAsync(Post post);
     }

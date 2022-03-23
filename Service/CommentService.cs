@@ -47,23 +47,19 @@ namespace Service
             return commentToReturn;
         }
 
-        public async Task DeleteCommentAsync(string userId, Guid postId, Guid id, bool trackChanges)
+        public async Task DeleteCommentAsync(Guid id, bool trackChanges)
         {
-            await CheckIfUserExists(userId, trackChanges);
 
-            var commentForUser = await GetcommentForUserAndCheckIfItExists(userId, postId, id, trackChanges);
+            var commentForUser = await GetcommentForUserAndCheckIfItExists(id, trackChanges);
 
             _repository.Comment.DeleteCommentAsync(commentForUser);
             await _repository.SaveAsync();
         }
 
-        public async Task<CommentDto> GetCommentAsync(string userId, Guid postId, Guid commentId, bool trackChanges)
+        public async Task<CommentDto> GetCommentAsync(Guid commentId, bool trackChanges)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user is null)
-                throw new UserNotFoundException(userId);
 
-            var commentFromDb = await _repository.Comment.GetCommentAsync(userId,  postId, commentId, trackChanges);
+            var commentFromDb = await _repository.Comment.GetCommentAsync(commentId, trackChanges);
             if (commentFromDb is null)
                 throw new CommentNotFoundException(commentId);
 
@@ -71,17 +67,6 @@ namespace Service
 
             return commentDto;
         }
-
-        /*public async Task<(CommentForUpdateDto commentToPatch, Comment commentEntity)> GetCommentForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges)
-        {
-            await CheckIfUserExists(userId, compTrackChanges);
-
-            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, id, empTrackChanges);
-
-            var commentToPach = _mapper.Map<CommentForUpdateDto>(commentFromDb);
-
-            return (commentToPach, commentFromDb);
-        }*/
 
         public async Task<IEnumerable<CommentDto>> GetAllCommentsAsync(bool trackChanges)
         {
@@ -92,17 +77,11 @@ namespace Service
             return commentDto;
         }
 
-        public async Task SaveChangesForPatchAsync(CommentForUpdateDto commentToPach, Comment commentEntity)
-        {
-            _mapper.Map(commentToPach, commentEntity);
-            await _repository.SaveAsync();
-        }
 
-        public async Task UpdateCommentAsync(string userId, Guid postId, Guid id, CommentForUpdateDto commentForUpdate, bool compTrackChanges, bool empTrackChanges)
+        public async Task UpdateCommentAsync(Guid id, CommentForUpdateDto commentForUpdate, bool compTrackChanges, bool empTrackChanges)
         {
-            await CheckIfUserExists(userId, compTrackChanges);
 
-            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, postId, id, empTrackChanges);
+            var commentFromDb = await GetcommentForUserAndCheckIfItExists(id, empTrackChanges);
 
             commentForUpdate.CreationDate = commentFromDb.CreationDate;
 
@@ -119,20 +98,20 @@ namespace Service
                 throw new UserNotFoundException(userId);
         }
 
-        private async Task<Comment> GetcommentForUserAndCheckIfItExists(string userId,Guid postId, Guid commentId, bool trackChanges)
+        private async Task<Comment> GetcommentForUserAndCheckIfItExists(Guid commentId, bool trackChanges)
         {
-            var commentForUser = await _repository.Comment.GetCommentAsync(userId, postId, commentId, trackChanges);
+            var commentForUser = await _repository.Comment.GetCommentAsync(commentId, trackChanges);
             if (commentForUser is null)
                 throw new CommentNotFoundException(commentId);
 
             return commentForUser;
         }
 
-        public async Task UpvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
+        public async Task UpvoteComment(string userId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
         {
             await CheckIfUserExists(userId, userTrackChanges);
 
-            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, postId, id, commentTrackChanges);
+            var commentFromDb = await GetcommentForUserAndCheckIfItExists(id, commentTrackChanges);
 
             _mapper.Map(commentForUpdate, commentFromDb);
             commentFromDb.UpvoteCount++;
@@ -152,11 +131,11 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task DownvoteComment(string userId, Guid postId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
+        public async Task DownvoteComment(string userId, Guid id, CommentDto commentForUpdate, bool userTrackChanges, bool postTrackChanges, bool commentTrackChanges)
         {
             await CheckIfUserExists(userId, userTrackChanges);
 
-            var commentFromDb = await GetcommentForUserAndCheckIfItExists(userId, postId, id, commentTrackChanges);
+            var commentFromDb = await GetcommentForUserAndCheckIfItExists(id, commentTrackChanges);
 
             _mapper.Map(commentForUpdate, commentFromDb);
             commentFromDb.DownvoteCount++;

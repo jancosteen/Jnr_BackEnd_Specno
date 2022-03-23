@@ -52,54 +52,64 @@ namespace Reddit_Api.Presentation.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{userId}/{id}", Name = "GetPostForUser")]
-        public async Task<IActionResult> GetPostForUser(string userId, Guid id)
+        [HttpGet("postId/{id}", Name = "GetPostForUser")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> GetPost(Guid id)
         {
-            var post = await _service.PostService.GetPostAsync(userId, id, trackChanges: false);
+            var post = await _service.PostService.GetPostAsync(id, trackChanges: false);
             return Ok(post);
         }
 
         [HttpPost("{userId}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreatePostForUser(string userId, [FromBody] PostForCreationDto post)
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> CreatePost(string userId, [FromBody] PostForCreationDto post)
         {
             var postToReturn = await _service.PostService.CreatePostForUserAsync(userId, post, trackChanges: false);
 
             return CreatedAtRoute("GetPostForUser", new { userId, id = postToReturn.Id }, postToReturn);
         }
 
-        [HttpDelete("{userId}/{id}")]
-        public async Task<IActionResult> DeletePostForUser(string userId, Guid id)
+        [HttpDelete("postId/{id}")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> DeletePost(Guid id)
         {
-            await _service.PostService.DeletePostForUserAsync(userId, id, trackChanges: false);
+            await _service.PostService.DeletePostForUserAsync(id, trackChanges: false);
 
             return NoContent();
         }
 
-        [HttpPut("{userId}/{id}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdatePostForUser(string userId, Guid id, [FromBody] PostForUpdateDto postForUpdate)
+        [HttpPut("postId/{id}")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> UpdatePost(Guid id, [FromBody] PostForUpdateDto postForUpdate)
         {
 
-            await _service.PostService.UpdatePostForUserAsync(userId, id, postForUpdate, compTrackChanges: false, empTrackChanges: true);
+            await _service.PostService.UpdatePostForUserAsync(id, postForUpdate, compTrackChanges: false, empTrackChanges: true);
 
             return NoContent();
         }
 
-        [HttpPut("upvotePost/{userId}/{postId}")]
+        [HttpPut("upvotePost/userId/{userId}/postId/{postId}")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult>UpvotePost(string userId, Guid postId, Guid id)
         {
-            var postDto = await _service.PostService.GetPostAsync(userId, postId, trackChanges: false); 
+            var postDto = await _service.PostService.GetPostAsync(postId, trackChanges: false); 
 
             await _service.PostService.UpvotePost(userId, postId, postDto, userTrackChanges: false, postTrackChanges: true);
 
             return NoContent();
         }
 
-        [HttpPut("downvotePost/{userId}/{postId}")]
+        [HttpPut("downvotePost/userId/{userId}/postId/{postId}")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> DownvotePost(string userId, Guid postId, Guid id)
         {
-            var postDto = await _service.PostService.GetPostAsync(userId, postId, trackChanges: false);
+            var postDto = await _service.PostService.GetPostAsync(postId, trackChanges: false);
 
             await _service.PostService.DownvotePost(userId, postId, postDto, userTrackChanges: false, postTrackChanges: true);
 
@@ -107,6 +117,8 @@ namespace Reddit_Api.Presentation.Controllers
         }
 
         [HttpGet("postsVoted/{userId}")]
+        [HttpHead]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetUserVotedPosts(string userId)
         {
             var userVotedPosts = await _service.UserPostVoteService.GetUserPostVoteAsync(userId, trackChanges: false);
