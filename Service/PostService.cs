@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Exceptions;
 using Entities.LinkModels;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -10,6 +11,7 @@ using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,17 +22,16 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        //private readonly IPostLinks _postLinks;
         private readonly UserManager<User> _userManager;
 
         public PostService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper,
-             UserManager<User> userManager)// IPostLinks postLinks,
+             UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _repository = repository;
             _logger = logger; ;
             _mapper = mapper;
-            //_postLinks = postLinks;
             _userManager = userManager;
+
         }
         public async Task<PostDto> CreatePostForUserAsync(string userId, PostForCreationDto postForCreation, bool trackChanges)
         {
@@ -152,6 +153,7 @@ namespace Service
 
             _repository.UserPostVote.CreateUserPostVoteForUserAsync(userId, postId, createUserPostVote);
             await _repository.SaveAsync();
+
         }
 
         public async Task DownvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges)
@@ -178,6 +180,8 @@ namespace Service
             _repository.UserPostVote.CreateUserPostVoteForUserAsync(userId,postId, createUserPostVote);
             await _repository.SaveAsync();
 
+            
+
 
         }
 
@@ -196,7 +200,8 @@ namespace Service
 
             return postDto;
 
-
         }
+
+        
     }
 }

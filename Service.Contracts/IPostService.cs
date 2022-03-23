@@ -22,5 +22,6 @@ namespace Service.Contracts
         Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity);
         Task UpvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges);
         Task DownvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges);
+
     }
 }

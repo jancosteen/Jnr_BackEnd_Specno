@@ -33,6 +33,8 @@ namespace Reddit_Api
             CreateMap<UserCommentVote, UserCommentVoteDto>();
             CreateMap<UserPostVote, UserPostVoteDto>();
 
+            CreateMap<User, UserDto>().ReverseMap();
+
 
 
         }

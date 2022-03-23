@@ -46,5 +46,12 @@ namespace Repository
             return new PagedList<UserPostVote>
                 (userPostVotes, count, userPostVoteParameters.PageNumber, userPostVoteParameters.PageSize);
         }
+
+        public async Task<IEnumerable<UserPostVote>> GetUserVotedPosts(string userId, bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Where(upv => upv.UserId == userId)
+            .Include(c => c.Post).ThenInclude(p => p.Comments)
+            .OrderBy(c => c.CreationDate)
+            .ToListAsync();
     }
 }

@@ -106,24 +106,12 @@ namespace Reddit_Api.Presentation.Controllers
             return NoContent();
         }
 
-        /*[HttpPatch("{userId}/{id}")]
-        public async Task<IActionResult> PartiallyUpdatePostForUser(string userId, Guid id, [FromBody] JsonPatchDocument<PostForUpdateDto> patchDoc)
+        [HttpGet("postsVoted/{userId}")]
+        public async Task<IActionResult> GetUserVotedPosts(string userId)
         {
-            if (patchDoc is null)
-                return BadRequest("patchDoc is null");
+            var userVotedPosts = await _service.UserPostVoteService.GetUserPostVoteAsync(userId, trackChanges: false);
 
-            var result = await _service.PostService.GetPostForPatchAsync(userId, id, compTrackChanges: false, empTrackChanges: true);
-
-            patchDoc.ApplyTo(result.postToPatch, ModelState);
-
-            TryValidateModel(result.postToPatch);
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
-            await _service.PostService.SaveChangesForPatchAsync(result.postToPatch, result.postEntity);
-
-            return NoContent();
-        }*/
+            return Ok(userVotedPosts);
+        }
     }
 }
