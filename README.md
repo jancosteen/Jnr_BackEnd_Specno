@@ -24,44 +24,44 @@ Postman (All of the postman requests have valid bodies, feel free to test incorr
 
 Authentication:
 1. Register User (POST)
-https://localhost:5001/api/authentication
+	https://localhost:5001/api/authentication
 2. Authenticate User (POST) (You will need to authenticate to get the accessToken required for the requests)
-https://localhost:5001/api/authentication/login
+	https://localhost:5001/api/authentication/login
 3. Get User ID (GET)
-https://localhost:5001/api/authentication/userName/JanDoe
+	https://localhost:5001/api/authentication/userName/JanDoe
 
 Posts: 
 1. Create Post (POST)
-https://localhost:5001/api/posts/<Add the userId here>
+	https://localhost:5001/api/posts/(Add userId here)
 2. Get All Posts (GET)
-https://localhost:5001/api/posts/
+	https://localhost:5001/api/posts/
 3. Get Post (GET)
-https://localhost:5001/api/posts/postId/<postId here>
+	https://localhost:5001/api/posts/postId/(postId here)
 4. Update Post (PUT)
-https://localhost:5001/api/posts/postId/<postId here>
+	https://localhost:5001/api/posts/postId/(postId here)
 5. Delete Post (DELETE)
-https://localhost:5001/api/posts/postId/<postId here>
+	https://localhost:5001/api/posts/postId/(postId here)
 6. Upvote Post (PUT)
-https://localhost:5001/api/posts/upvotePost/userId/<userId here>/postId/<postId here>
+	https://localhost:5001/api/posts/upvotePost/userId/<userId here>/postId/(postId here)
 7. Downvote Post (PUT)
-https://localhost:5001/api/posts/downVotePost/userId/<userId here>/postId/<postId here>
+	https://localhost:5001/api/posts/downVotePost/userId/<userId here>/postId/(postId here)
 8. Get Posts by Username (GET)
-https://localhost:5001/api/posts/JanDoe
+	https://localhost:5001/api/posts/JanDoe
 9. Get Posts that a user has voted on (GET)
-https://localhost:5001/api/posts/postsVoted/<userId here>
+	https://localhost:5001/api/posts/postsVoted/(userId here)
 	
 Comments:
 1. Create Comment (POST)
-https://localhost:5001/api/comments/userId/<userId here>/postId/<postId here>
+	https://localhost:5001/api/comments/userId/<userId here>/postId/(postId here)
 2. Get All Comments (GET)
-https://localhost:5001/api/comments/
+	https://localhost:5001/api/comments/
 3. Get Comment (GET)
-https://localhost:5001/api/comments/<commentId here>
+	https://localhost:5001/api/comments/(commentId here)
 4. Update Comment (PUT)
-https://localhost:5001/api/comments/<commentId here>
+	https://localhost:5001/api/comments/(commentId here)
 5. Delete Comment (DELETE)
-https://localhost:5001/api/comments/<commentId here>
+	https://localhost:5001/api/comments/(commentId here)
 6. Upvote Comment (PUT)
-https://localhost:5001/api/comments/upvoteComment/userId/<userId here>/commentId/<commentId here>
+	https://localhost:5001/api/comments/upvoteComment/userId/(userId here)/commentId/(commentId here)
 7. Downvote Comment (PUT)
-https://localhost:5001/api/comments/downvoteComment/userId/<userId here>/commentId/<commentId here>
+	https://localhost:5001/api/comments/downvoteComment/userId/(userId here)/commentId/(commentId here)
