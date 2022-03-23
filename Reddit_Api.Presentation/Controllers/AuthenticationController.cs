@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Reddit_Api.Presentation.Controllers
 {
@@ -15,10 +17,12 @@ namespace Reddit_Api.Presentation.Controllers
     public class AuthenticationController: ControllerBase
     {
         private readonly IServiceManager _service;
+        private readonly UserManager<User> _userManager;
 
-        public AuthenticationController(IServiceManager service)
+        public AuthenticationController(IServiceManager service, UserManager<User> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -49,6 +53,13 @@ namespace Reddit_Api.Presentation.Controllers
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
 
             return Ok(tokenDto);
+        }
+
+        [HttpGet("userName/{userName}")]
+        public async Task<IActionResult> GetAllUsers(string userName)
+        {
+            var users = await _userManager.FindByNameAsync(userName);
+            return Ok(users);
         }
     }
 }
