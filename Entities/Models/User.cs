@@ -13,5 +13,10 @@ namespace Entities.Models
         public string? LastName { get; set;}
         public string? RefreshToken { get; set;}
         public DateTime RefreshTokenExpiryTime { get; set;}
+
+        public ICollection<Post>? Posts { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
+        public ICollection<UserPostVote>? User_Post_Vote { get; set; }
+
     }
 }

@@ -6,9 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Entities.LinkModels
 {
-    public record LinkParameters(PostLinkParameters EmployeeParameters, HttpContext Context);
-  
+    public record PostLinkParameters(PostParameters PostParameters, HttpContext Context);
 }
