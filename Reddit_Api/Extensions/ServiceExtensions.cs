@@ -90,7 +90,7 @@ namespace Reddit_Api.Extensions
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
-                opt.Conventions.Controller<EmployeesController>().HasApiVersion(new ApiVersion(1, 0));
+
             });
         }
 

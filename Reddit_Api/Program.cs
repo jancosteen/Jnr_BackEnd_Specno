@@ -2,7 +2,7 @@
 using AspNetCoreRateLimit;
 using Reddit_Api.Extensions;
 using Reddit_Api.Presentation.ActionFilters;
-using Reddit_Api.Utility;
+
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -46,8 +46,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddScoped<ValidateMediaTypeAttribute>();
-builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
-builder.Services.AddScoped<IEmployeeLinks, EmployeeLinks>();
+
 /*builder.Services.AddScoped<IPostLinks, PostLinks>();*/
 
 // Different content types i.e JSON or XML etc

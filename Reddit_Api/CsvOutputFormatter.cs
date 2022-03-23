@@ -16,8 +16,8 @@ namespace Reddit_Api
 
         protected override bool CanWriteType(Type? type)
         {
-            if(typeof(CompanyDto).IsAssignableFrom(type) ||
-                typeof(IEnumerable<CompanyDto>).IsAssignableFrom(type))
+            if(typeof(PostDto).IsAssignableFrom(type) ||
+                typeof(IEnumerable<PostDto>).IsAssignableFrom(type))
             {
                 return base.CanWriteType(type);
             }
@@ -29,25 +29,25 @@ namespace Reddit_Api
             var response = context.HttpContext.Response;
             var buffer = new StringBuilder();
 
-            if(context.Object is IEnumerable<CompanyDto>)
+            if(context.Object is IEnumerable<PostDto>)
             {
-                foreach(var company in (IEnumerable<CompanyDto>)context.Object)
+                foreach(var company in (IEnumerable<PostDto>)context.Object)
                 {
                     FormatCsv(buffer, company);
                 }
             }
             else
             {
-                FormatCsv(buffer, (CompanyDto)context.Object);
+                FormatCsv(buffer, (PostDto)context.Object);
             }
 
             await response.WriteAsync(buffer.ToString());
 
         }
 
-        private static void FormatCsv(StringBuilder buffer, CompanyDto company)
+        private static void FormatCsv(StringBuilder buffer, PostDto company)
         {
-            buffer.AppendLine($"{company.Id},\"{company.Name},\"{company.FullAddress},\"");
+            buffer.AppendLine($"{company.Id},\"{company.Title},\"{company.Body},\"");
         }
     }
 }

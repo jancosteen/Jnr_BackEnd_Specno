@@ -25,7 +25,7 @@ namespace Service
         private readonly UserManager<User> _userManager;
 
         public PostService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper,
-             UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+             UserManager<User> userManager)
         {
             _repository = repository;
             _logger = logger; ;

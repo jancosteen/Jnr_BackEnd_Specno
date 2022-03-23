@@ -8,8 +8,6 @@ namespace Service.Contracts
 {
     public interface IServiceManager
     {
-        ICompanyService CompanyService { get; }
-        IEmployeeService EmployeeService { get; }
         IPostService PostService { get; }
         ICommentService CommentService { get; }
         IUserPostVoteService UserPostVoteService { get; }
