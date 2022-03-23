@@ -50,23 +50,20 @@ namespace Service
             return postToReturn;
         }
 
-        public async Task DeletePostForUserAsync(string userId, Guid id, bool trackChanges)
+        public async Task DeletePostForUserAsync(Guid id, bool trackChanges)
         {
-            await CheckIfUserExists(userId, trackChanges);
 
-            var postForUser = await GetpostForUserAndCheckIfItExists(userId, id, trackChanges);
+            var postForUser = await GetpostForUserAndCheckIfItExists(id, trackChanges);
 
             _repository.Post.DeletePostAsync(postForUser);
             await _repository.SaveAsync();
         }
 
-        public async Task<PostDto> GetPostAsync(string userId, Guid postId, bool trackChanges)
+        public async Task<PostDto> GetPostAsync(Guid postId, bool trackChanges)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user is null)
-                throw new UserNotFoundException(userId);
 
-            var postFromDb = await _repository.Post.GetPostAsync(userId, postId, trackChanges);
+
+            var postFromDb = await _repository.Post.GetPostAsync(postId, trackChanges);
             if (postFromDb is null)
                 throw new PostNotFoundException(postId);
 
@@ -75,16 +72,6 @@ namespace Service
             return postDto;
         }
 
-        public async Task<(PostForUpdateDto postToPatch, Post postEntity)> GetPostForPatchAsync(string userId, Guid id, bool compTrackChanges, bool empTrackChanges)
-        {
-            await CheckIfUserExists(userId, compTrackChanges);
-
-            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, id, empTrackChanges);
-
-            var postToPach = _mapper.Map<PostForUpdateDto>(postFromDb);
-
-            return (postToPach, postFromDb);
-        }
 
         public async Task<IEnumerable<PostDto>> GetAllPostsAsync(bool trackChanges)
         {
@@ -95,17 +82,12 @@ namespace Service
             return postDto;
         }
 
-        public async Task SaveChangesForPatchAsync(PostForUpdateDto postToPach, Post postEntity)
-        {
-            _mapper.Map(postToPach, postEntity);
-            await _repository.SaveAsync();
-        }
 
-        public async Task UpdatePostForUserAsync(string userId, Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges)
+        public async Task UpdatePostForUserAsync(Guid id, PostForUpdateDto postForUpdate, bool compTrackChanges, bool empTrackChanges)
         {
-            await CheckIfUserExists(userId, compTrackChanges);
 
-            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, id, empTrackChanges);
+
+            var postFromDb = await GetpostForUserAndCheckIfItExists(id, empTrackChanges);
 
             postForUpdate.CreationDate = postFromDb.CreationDate;            
 
@@ -122,9 +104,9 @@ namespace Service
                 throw new UserNotFoundException(userId);
         }
 
-        private async Task<Post> GetpostForUserAndCheckIfItExists(string userId, Guid postId, bool trackChanges)
+        private async Task<Post> GetpostForUserAndCheckIfItExists( Guid postId, bool trackChanges)
         {
-            var postForUser = await _repository.Post.GetPostAsync(userId, postId, trackChanges);
+            var postForUser = await _repository.Post.GetPostAsync(postId, trackChanges);
             if (postForUser is null)
                 throw new PostNotFoundException(postId);
 
@@ -133,9 +115,8 @@ namespace Service
 
         public async Task UpvotePost(string userId, Guid postId, PostDto postForUpdate, bool userTrackChanges, bool postTrackChanges)
         {
-            await CheckIfUserExists(userId, userTrackChanges);
 
-            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, postId, postTrackChanges);            
+            var postFromDb = await GetpostForUserAndCheckIfItExists(postId, postTrackChanges);            
 
             _mapper.Map(postForUpdate, postFromDb);
             postFromDb.UpvoteCount++;
@@ -160,7 +141,7 @@ namespace Service
         {
             await CheckIfUserExists(userId, userTrackChanges);
 
-            var postFromDb = await GetpostForUserAndCheckIfItExists(userId, postId, postTrackChanges);
+            var postFromDb = await GetpostForUserAndCheckIfItExists( postId, postTrackChanges);
 
             _mapper.Map(postForUpdate, postFromDb);
 

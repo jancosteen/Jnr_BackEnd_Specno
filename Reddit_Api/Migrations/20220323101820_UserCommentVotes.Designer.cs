@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace Reddit_Api.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220323101820_UserCommentVotes")]
+    partial class UserCommentVotes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,38 +180,6 @@ namespace Reddit_Api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Models.UserCommentVote", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("UserCommentVoteId");
-
-                    b.Property<Guid>("CommentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("VoteType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserCommentVotes");
-                });
-
             modelBuilder.Entity("Entities.Models.UserPostVote", b =>
                 {
                     b.Property<Guid>("Id")
@@ -271,15 +241,15 @@ namespace Reddit_Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "43c72bf5-f657-420d-963d-b66eed15edb4",
-                            ConcurrencyStamp = "a9af38db-60ce-4840-bc85-0011943a0576",
+                            Id = "c11fa764-36d0-477c-bbc7-00a8beabe142",
+                            ConcurrencyStamp = "f640e77d-2034-4a0b-8fc6-c2adbe647d93",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "9cadcd00-6472-4023-83f0-262024e8ec72",
-                            ConcurrencyStamp = "87e840f7-4552-4e83-a0c0-fc3d1e1affc8",
+                            Id = "4587cbf8-b808-40be-bdc7-84e1f528264d",
+                            ConcurrencyStamp = "29c7c16e-3090-4246-bef1-732477913304",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -417,25 +387,6 @@ namespace Reddit_Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Models.UserCommentVote", b =>
-                {
-                    b.HasOne("Entities.Models.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
 
                     b.Navigation("User");
                 });

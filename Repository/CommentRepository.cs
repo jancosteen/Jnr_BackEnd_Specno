@@ -28,8 +28,8 @@ namespace Repository
         public void DeleteCommentAsync(Comment comment) =>
             Delete(comment);
 
-        public async Task<Comment> GetCommentAsync(string userId, Guid postId, Guid commentId, bool trackChanges) =>
-            await FindByCondition(e => e.UserId.Equals(userId) && e.PostId.Equals(postId) && e.Id.Equals(commentId), trackChanges)
+        public async Task<Comment> GetCommentAsync( Guid commentId, bool trackChanges) =>
+            await FindByCondition(e => e.Id.Equals(commentId), trackChanges)
             .SingleOrDefaultAsync();
 
         public async Task<PagedList<Comment>> GetCommentsByUserAsync(string userId,
